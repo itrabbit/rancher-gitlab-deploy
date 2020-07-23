@@ -80,7 +80,7 @@ def main(rancher_endpoint, rancher_key, rancher_secret, environment, stack, serv
         debug_requests_on()
 
     # split url to protocol and host
-    if "://" not in rancher_url:
+    if "://" not in rancher_endpoint:
         bail("The Rancher URL doesn't look right")
 
     proto, host = rancher_endpoint.split("://")
