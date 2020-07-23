@@ -15,8 +15,8 @@ from time import sleep
 
 
 @click.command()
-@click.option('--rancher-url', envvar='RANCHER_URL', required=True,
-              help='The URL for your Rancher server, eg: http://rancher:8000')
+@click.option('--rancher-endpoint', envvar='RANCHER_ENDPOINT', required=True,
+              help='The Endpoint for your Rancher server, eg: http://rancher:8000/v1')
 @click.option('--rancher-key', envvar='RANCHER_ACCESS_KEY', required=True,
               help="The environment or account API key")
 @click.option('--rancher-secret', envvar='RANCHER_SECRET_KEY', required=True,
@@ -73,7 +73,7 @@ from time import sleep
 @click.option('--envvar',default='',multiple=True,
               help="envvar to set")
 
-def main(rancher_url, rancher_key, rancher_secret, environment, stack, service, new_image, batch_size, batch_interval, start_before_stopping, upgrade_timeout, wait_for_upgrade_to_finish, rollback_on_error, finish_upgrade, sidekicks, new_sidekick_image, create, labels, label, variables, variable, service_links, service_link, debug, ssl_verify, hostname, port, envvar):
+def main(rancher_endpoint, rancher_key, rancher_secret, environment, stack, service, new_image, batch_size, batch_interval, start_before_stopping, upgrade_timeout, wait_for_upgrade_to_finish, rollback_on_error, finish_upgrade, sidekicks, new_sidekick_image, create, labels, label, variables, variable, service_links, service_link, debug, ssl_verify, hostname, port, envvar):
     """Performs an in service upgrade of the service specified on the command line"""
 
     if debug:
@@ -83,8 +83,8 @@ def main(rancher_url, rancher_key, rancher_secret, environment, stack, service, 
     if "://" not in rancher_url:
         bail("The Rancher URL doesn't look right")
 
-    proto, host = rancher_url.split("://")
-    api = "%s://%s/v1" % (proto, host)
+    proto, host = rancher_endpoint.split("://")
+    api = "%s://%s" % (proto, host)
     stack = stack.replace('.', '-')
     service = service.replace('.', '-')
 
