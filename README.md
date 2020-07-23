@@ -14,7 +14,7 @@ This tool is not suitable if your services are not already created in Rancher. I
 
 I recommend you use the pre-built container:
 
-https://hub.docker.com/r/cdrx/rancher-gitlab-deploy/
+https://hub.docker.com/r/itrabbit/rancher-gitlab-deploy/
 
 But you can install the command locally, with `pip`, if you prefer:
 
@@ -28,7 +28,7 @@ You will need to create a set of API keys in Rancher and save them as secret var
 
 Three secret variables are required:
 
-`RANCHER_URL` (eg `https://rancher.example.com`)
+`RANCHER_ENDPOINT` (eg `https://rancher.example.com/v1`)
 
 `RANCHER_ACCESS_KEY`
 
@@ -39,7 +39,7 @@ Rancher supports two kind of API keys: environment and account. You can use eith
 ```
 deploy:
   stage: deploy
-  image: cdrx/rancher-gitlab-deploy
+  image: itrabbit/rancher-gitlab-deploy
   script:
     - upgrade --environment production
 ```
@@ -55,7 +55,7 @@ If the names of your services don't match your repos in GitLab 1:1, you can chan
 ```
 deploy:
   stage: deploy
-  image: cdrx/rancher-gitlab-deploy
+  image: itrabbit/rancher-gitlab-deploy
   script:
     - upgrade --stack acmeinc --service website
 ```
@@ -65,7 +65,7 @@ You can change the image (or :tag) used to deploy the upgraded containers with t
 ```
 deploy:
   stage: deploy
-  image: cdrx/rancher-gitlab-deploy
+  image: itrabbit/rancher-gitlab-deploy
   script:
     - upgrade --new-image registry.example.com/acme/widget:1.2
 ```
@@ -96,7 +96,7 @@ build:
 
 deploy:
   stage: deploy
-  image: cdrx/rancher-gitlab-deploy
+  image: itrabbit/rancher-gitlab-deploy
   script:
     - upgrade
 ```
@@ -106,7 +106,7 @@ A more complex example:
 ```
 deploy:
   stage: deploy
-  image: cdrx/rancher-gitlab-deploy
+  image: itrabbit/rancher-gitlab-deploy
   script:
     - upgrade --environment production --stack acme --service web --new-image alpine:3.4 --no-finish-upgrade
 ```
@@ -122,8 +122,8 @@ Usage: rancher-gitlab-deploy [OPTIONS]
   line
 
 Options:
-  --rancher-url TEXT              The URL for your Rancher server, eg:
-                                  http://rancher:8000  [required]
+  --rancher-endpoint TEXT         The endpoint for your Rancher server, eg:
+                                  http://rancher:8000/v1  [required]
   --rancher-key TEXT              The environment or account API key
                                   [required]
   --rancher-secret TEXT           The secret for the access API key
@@ -192,30 +192,6 @@ Options:
   --help                          Show this message and exit.
 
 ```
-
-## History
-
-#### [1.6] - 2018-09-09
-Added the --rollback-on-error option, thanks to @TZK- for the PR
-Added the --label, --variables, --variable options, thankls to @tsteenkamp for the PR
-
-#### [1.5] - 2017-11-25
-Fixed UnicodeError bug with authentication, thank you to @evilmind for the fix
-
-#### [1.4] - 2017-07-18
-Fixed some bug to do with error and sidekick handling and made `--no-start-before-stopping` the default behaviour
-
-#### [1.3] - 2017-03-16
-Added the --new-sidekick-image flag to change sidekick images while upgrading, thank you @kariae for the PR
-
-#### [1.2] - 2017-01-03
-Added the --sidekicks flag to upgrade sidekicks at the same time, thank you @kiesiu for the PR
-
-#### [1.1] - 2016-09-29
-Fixed a bug that caused a crash when using --environment, thank you @mvriel for the PR
-
-#### [1.0] - 2016-09-14
-First release, works.
 
 ## License
 
